@@ -29,13 +29,13 @@ public class GridActivity  extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.recycler_vew_layout);
-        Intent intent = getIntent();
-        CategoryInterface inter = (MainActivity) intent.getSerializableExtra("interface");
+      //  Intent intent = getIntent();
+       // CategoryInterface inter = (MainActivity) intent.getSerializableExtra("interface");
 
-        Init(inter);
+        Init();
     }
 
-    private void Init(CategoryInterface inter) {
+    private void Init() {
         mRecyclerView=findViewById(R.id.recyclerView);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getApplicationContext(),3);
         //gridLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL); // set Horizontal Orientation
@@ -44,7 +44,7 @@ public class GridActivity  extends AppCompatActivity {
         mRecyclerView.addItemDecoration(itemDecoration);
 
         mRecyclerView.setLayoutManager(gridLayoutManager);
-        CustomAdapter customAdapter = new CustomAdapter(GridActivity.this, personNames,personImages,inter);
+        CustomAdapter customAdapter = new CustomAdapter(GridActivity.this, personNames,personImages);
         mRecyclerView.setAdapter(customAdapter);
     }
 }

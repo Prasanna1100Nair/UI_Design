@@ -13,7 +13,7 @@ import com.test.ui.prasannakumar.ui_design.R;
 
 import java.io.Serializable;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener ,CategoryInterface{
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     TextInputEditText title,Desp,Cata;
     TextInputLayout title_head,title_head2,title_header_3;
     int count=0;
@@ -43,16 +43,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if(Cata==view)
         {
             Intent in=new Intent(MainActivity.this, GridActivity.class);
-            in.putExtra("interface", MainActivity.this);
+
             startActivity(in);
             count=0;
         }
     }
 
-    @Override
-    public void totalCount(int val) {
-        count+=val;
-        Log.e("TAG1","VAL:: "+count);
-        //Cata.setText(count +" Categories selected");
-    }
+
 }

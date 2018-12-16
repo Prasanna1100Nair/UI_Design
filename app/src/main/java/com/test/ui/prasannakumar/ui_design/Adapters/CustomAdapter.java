@@ -16,6 +16,7 @@ import com.test.ui.prasannakumar.ui_design.R;
 import com.wajahatkarim3.easyflipview.EasyFlipView;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 /**
  * Created by prasannakumar on 16/12/18.
@@ -27,13 +28,15 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.RecyclerVi
     ArrayList personImages;
 
     private Context context;
+    public ArrayList<Integer> count=new ArrayList<>();
+    public ArrayList<String> countValue=new ArrayList<>();
     CategoryInterface categoryInterface;
 
-    public CustomAdapter(Context context, ArrayList personNames, ArrayList personImages, CategoryInterface inter) {
+    public CustomAdapter(Context context, ArrayList personNames, ArrayList personImages) {
         this.context = context;
         this.personNames = personNames;
         this.personImages = personImages;
-        categoryInterface=inter;
+        //categoryInterface=inter;
     }
 
     @Override
@@ -58,7 +61,52 @@ holder.mFlip.setOnFlipListener(new EasyFlipView.OnFlipAnimationListener() {
         Log.e("TAG1","easyFlipView:: "+easyFlipView);
         Log.e("TAG1","Tag: "+easyFlipView.getTag());
         Log.e("TAG1","newCurrentSide:: "+newCurrentSide);
-        categoryInterface.totalCount(1);
+
+        int value=0;
+
+            int i=(int)easyFlipView.getTag();
+            if(i==1)
+            {
+                i=0;
+            }
+
+            if(count.contains(i))
+            {
+                for(int j=0;j<count.size();j++)
+                {
+                    int temp=count.get(j);
+                    if(temp==i)
+                    {
+                        countValue.get(j).replace("BACK_SIDE","FRONT_SIDE");
+                    }
+                }
+                for (int j=0;j<count.size();j++)
+                {
+                    Log.d("TAG1","Data:: "+ countValue.get(j));
+                    if(countValue.get(j).equals("BACK_SIDE"))
+                    {
+                        value++;
+                    }
+                }
+                Log.d("TAG1","Size:: "+ value);
+            }
+            else{
+              count.add(i) ;
+                countValue.add("BACK_SIDE");
+                for (int j=0;j<count.size();j++)
+                {
+                    Log.d("TAG1","Data:: "+ countValue.get(j));
+                    if(countValue.get(j).equals("BACK_SIDE"))
+                    {
+                        value++;
+                    }
+                }
+                Log.d("TAG1"," Else Size:: "+ value);
+
+            }
+
+
+       // categoryInterface.totalCount(1);
     }
 });
 
