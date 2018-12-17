@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.test.ui.prasannakumar.ui_design.MainActivity">
+    tools:context="com.test.ui.prasannakumar.ui_design.Activities.MainActivity">
 
 
     <android.support.design.widget.TextInputLayout
@@ -19,38 +19,40 @@
         app:counterTextAppearance="@style/CounterText"
         app:hintTextAppearance="@style/HintText">
 
-    <android.support.design.widget.TextInputEditText
-        android:id="@+id/edtTitle"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Post Title"
-        android:maxLength="50"/>
-</android.support.design.widget.TextInputLayout>
+        <android.support.design.widget.TextInputEditText
+            android:id="@+id/edtTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Post Title"
+            android:maxLength="50" />
+    </android.support.design.widget.TextInputLayout>
+
     <android.support.design.widget.TextInputLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    app:counterEnabled="true"
-    android:id="@+id/edtTitle_header_2"
-    app:counterMaxLength="350"
-
-    android:hint="Enter post title"
-    app:counterOverflowTextAppearance="@style/TextLimitError">
-
-    <android.support.design.widget.TextInputEditText
-        android:id="@+id/edtDesp"
+        android:id="@+id/edtTitle_header_2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-
-        android:maxLength="350"/>
-</android.support.design.widget.TextInputLayout>
-    <android.support.design.widget.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-
-        android:id="@+id/edtTitle_header_3"
-        app:counterMaxLength="50"
-
         android:hint="Enter post title"
+        app:counterEnabled="true"
+
+        app:counterMaxLength="350"
+        app:counterOverflowTextAppearance="@style/TextLimitError">
+
+        <android.support.design.widget.TextInputEditText
+            android:id="@+id/edtDesp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:maxLength="350" />
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/edtTitle_header_3"
+        android:layout_width="match_parent"
+
+        android:layout_height="wrap_content"
+        android:hint="Enter post title"
+
+        app:counterMaxLength="50"
         app:counterOverflowTextAppearance="@style/TextLimitError">
 
         <android.support.design.widget.TextInputEditText
@@ -58,7 +60,159 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
 
-            android:maxLength="50"/>
+            android:maxLength="50" />
     </android.support.design.widget.TextInputLayout>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="1">
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/edtTitle_budget"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight=".5"
+            android:hint="Budget"
+
+            app:counterEnabled="false"
+            app:counterOverflowTextAppearance="@style/TextLimitError">
+
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/edtbudget"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                android:maxLength="350" />
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/edtTitle_currency"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight=".5"
+            android:hint="INR"
+
+
+            app:counterEnabled="false"
+            app:counterOverflowTextAppearance="@style/TextLimitError">
+
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/edtcurrency"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+                android:maxLength="350" />
+        </android.support.design.widget.TextInputLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="1">
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/edtTitle_Rate"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight=".5"
+            android:hint="Rate"
+
+            app:counterEnabled="false"
+            app:counterOverflowTextAppearance="@style/TextLimitError">
+
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/edtRate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+                android:maxLength="350" />
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/edtTitle_Payment"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight=".5"
+            android:hint="Payment method"
+
+
+            app:counterEnabled="false"
+            app:counterOverflowTextAppearance="@style/TextLimitError">
+
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/edtPayment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+                android:maxLength="350" />
+        </android.support.design.widget.TextInputLayout>
+
+    </LinearLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/edtTitle_Location"
+        android:layout_width="match_parent"
+
+        android:layout_height="wrap_content"
+        android:hint="Post Location"
+
+        app:counterMaxLength="50"
+        app:counterOverflowTextAppearance="@style/TextLimitError">
+
+        <android.support.design.widget.TextInputEditText
+            android:id="@+id/edtLocation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:maxLength="50" />
+    </android.support.design.widget.TextInputLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="1">
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/edtTitle_Date"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight=".5"
+            android:hint="Start Date"
+
+            app:counterEnabled="false"
+            app:counterOverflowTextAppearance="@style/TextLimitError">
+
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/edtDate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+                android:maxLength="350" />
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/edtTitle_JobTerm"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight=".5"
+            android:hint="Job Term"
+
+
+            app:counterEnabled="false"
+            app:counterOverflowTextAppearance="@style/TextLimitError">
+
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/edtJobTerm"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+                android:maxLength="350" />
+        </android.support.design.widget.TextInputLayout>
+
+    </LinearLayout>
 </LinearLayout>
