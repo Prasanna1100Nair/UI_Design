@@ -104,7 +104,6 @@ mFlip=itemView.findViewById(R.id.Flip);
 
         @Override
         public void onClick(View view) {
-            Toast.makeText(view.getContext(), "Clicked Country Position = " + getPosition(), Toast.LENGTH_SHORT).show();
-        }
+             }
     }
 }

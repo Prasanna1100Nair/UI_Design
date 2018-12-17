@@ -6,21 +6,37 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.DividerItemDecoration;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.DatePicker;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.test.ui.prasannakumar.ui_design.Adapters.CustomAdapter;
+import com.test.ui.prasannakumar.ui_design.Adapters.CustomAddAdapter;
+import com.test.ui.prasannakumar.ui_design.Classes.RecyclerViewItemDecorator;
 import com.test.ui.prasannakumar.ui_design.Global.GlobalApplication;
 import com.test.ui.prasannakumar.ui_design.Interface.CategoryInterface;
 import com.test.ui.prasannakumar.ui_design.R;
 
-import net.alhazmy13.mediapicker.Image.ImagePicker;
+
 
 import java.io.File;
 import java.io.Serializable;
@@ -29,25 +45,38 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener,View.OnFocusChangeListener {
     TextInputEditText title,Desp,Cata,Date,Rate,Payment,JobTerm,Location;
     TextInputLayout title_head,title_head2,title_header_3,Title_Date;
     private int mYear, mMonth, mDay;
     private int mFinalYear, mFinalMonth, mFinalDay;
+    LinearLayout layoutBottomSheet;
+    BottomSheetBehavior sheetBehavior;
+    RecyclerView mRecyclerView;
+    ImageView bottomSheet;
     int count=0;
     private CategoryInterface inter;
+    ArrayList personNames = new ArrayList<>(Arrays.asList("Person 1", "Person 2", "Person 3", "Person 4", "Person 5", "Person 6", "Person 7","Person 8", "Person 9", "Person 10", "Person 11", "Person 12", "Person 13", "Person 14"));
+    ArrayList personImages = new ArrayList<>(Arrays.asList(R.mipmap.ic_launcher,R.mipmap.ic_launcher,R.mipmap.ic_launcher,R.mipmap.ic_launcher,R.mipmap.ic_launcher,R.mipmap.ic_launcher,R.mipmap.ic_launcher,R.mipmap.ic_launcher,R.mipmap.ic_launcher,R.mipmap.ic_launcher,R.mipmap.ic_launcher,R.mipmap.ic_launcher,R.mipmap.ic_launcher,R.mipmap.ic_launcher));
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+
         Init();
     }
 
     private void Init() {
+        layoutBottomSheet=findViewById(R.id.bottom_sheet);
+        sheetBehavior = BottomSheetBehavior.from(layoutBottomSheet);
         title_head=findViewById(R.id.edtTitle_header);
         title_head2=findViewById(R.id.edtTitle_header_2);
         title_header_3=findViewById(R.id.edtTitle_header_3);
         Title_Date=findViewById(R.id.edtTitle_Date);
+        bottomSheet=findViewById(R.id.bottomSheet);
+
         title=findViewById(R.id.edtTitle);
         Desp=findViewById(R.id.edtDesp);
         Date=findViewById(R.id.edtDate);
@@ -56,8 +85,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Payment=findViewById(R.id.edtPayment);
         JobTerm=findViewById(R.id.edtJobTerm);
         Location=findViewById(R.id.edtLocation);
+        mRecyclerView=findViewById(R.id.recyclerView);
         title.setHint("");
         Desp.setHint("");
+        sheetBehavior.setHideable(true);//Important to add
+        sheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
 
         Desp.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
@@ -72,72 +104,68 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             }
         });
-        Cata.setOnClickListener(this);
-        Date.setOnClickListener(this);
-        Rate.setOnClickListener(this);
-        Payment.setOnClickListener(this);
-        JobTerm.setOnClickListener(this);
-        Title_Date.setOnClickListener(this);
+        Cata.setOnFocusChangeListener(this);
+        Date.setOnFocusChangeListener(this);
+        Rate.setOnFocusChangeListener(this);
+        Payment.setOnFocusChangeListener(this);
+        JobTerm.setOnFocusChangeListener(this);
+        Location.setOnFocusChangeListener(this);
+        bottomSheet.setOnClickListener(this);
+
         Cata.setText(GlobalApplication.total+" Catagories selected");
+        mRecyclerView.addItemDecoration(new DividerItemDecoration(MainActivity.this, LinearLayoutManager.HORIZONTAL));
 
+        LinearLayoutManager horizontalLayoutManager = new LinearLayoutManager(MainActivity.this, LinearLayoutManager.HORIZONTAL, false);
+        mRecyclerView.setLayoutManager(horizontalLayoutManager);
 
+        CustomAddAdapter customAdapter = new CustomAddAdapter(MainActivity.this, personNames,personImages);
+        mRecyclerView.setAdapter(customAdapter);
 
+        sheetBehavior.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
+            @Override
+            public void onStateChanged(@NonNull View bottomSheet, int newState) {
+                switch (newState) {
+                    case BottomSheetBehavior.STATE_HIDDEN:
+                        break;
+                    case BottomSheetBehavior.STATE_EXPANDED: {
+                       // btnBottomSheet.setText("Close Sheet");
+                    }
+                    break;
+                    case BottomSheetBehavior.STATE_COLLAPSED: {
+                        //btnBottomSheet.setText("Expand Sheet");
+                    }
+                    break;
+                    case BottomSheetBehavior.STATE_DRAGGING:
+                        break;
+                    case BottomSheetBehavior.STATE_SETTLING:
+                        break;
+                }
+            }
+
+            @Override
+            public void onSlide(@NonNull View bottomSheet, float slideOffset) {
+
+            }
+        });
+        }
+    public void toggleBottomSheet() {
+        if (sheetBehavior.getState() != BottomSheetBehavior.STATE_EXPANDED) {
+            sheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+            //btnBottomSheet.setText("Close sheet");
+        } else {
+            sheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+           // btnBottomSheet.setText("Expand sheet");
+        }
     }
-
     @Override
     public void onClick(View view) {
-        if(Cata==view)
-        {
-            Intent in=new Intent(MainActivity.this, GridActivity.class);
 
-            startActivity(in);
-            count=0;
-        }
-        else if(Location==view)
+         if(bottomSheet==view)
         {
-            new ImagePicker.Builder(MainActivity.this)
-                    .mode(ImagePicker.Mode.CAMERA_AND_GALLERY)
-                    .compressLevel(ImagePicker.ComperesLevel.MEDIUM)
-                    .directory(ImagePicker.Directory.DEFAULT)
-                    .extension(ImagePicker.Extension.PNG)
-                    .scale(600, 600)
-                    .allowMultipleImages(false)
-                    .enableDebuggingMode(true)
-                    .build();
-        }
-        else if(Rate==view)
-        {
-            withChoiceItems(view,0);
-        }
-        else if(Payment==view)
-        {
-            withChoiceItems(view,1);
-        }
-        else if(JobTerm==view)
-        {
-            withChoiceItems(view,2);
-        }
-        else if(Date==view)
-        {
-            final Calendar c = Calendar.getInstance();
-            mYear = c.get(Calendar.YEAR);
-            mMonth = c.get(Calendar.MONTH);
-            mDay = c.get(Calendar.DAY_OF_MONTH);
-            DatePickerDialog datePickerDialog = new DatePickerDialog(MainActivity.this,
-                    new DatePickerDialog.OnDateSetListener() {
 
-                        @Override
-                        public void onDateSet(DatePicker datePicker, int year, int monthOfYear, int dayOfMonth) {
-                            mFinalDay = dayOfMonth;
-                            mFinalMonth = monthOfYear;
-                            mFinalYear = year;
-                            Date.setText(mFinalDay + "-" + (mFinalMonth + 1) + "-" + mFinalYear);
-
-                        }
-                    }, mYear, mMonth, mDay);
-            datePickerDialog.setCancelable(false);
-            datePickerDialog.show();
+            toggleBottomSheet();
         }
+
     }
 
 
@@ -201,10 +229,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == ImagePicker.IMAGE_PICKER_REQUEST_CODE && resultCode == RESULT_OK) {
-            List<String> mPaths = data.getStringArrayListExtra(ImagePicker.EXTRA_IMAGE_PATH);
-            //Your Code
-        }
+//        if (requestCode == ImagePicker.IMAGE_PICKER_REQUEST_CODE && resultCode == RESULT_OK) {
+//            List<String> mPaths = data.getStringArrayListExtra(ImagePicker.EXTRA_IMAGE_PATH);
+//            //Your Code
+//        }
     }
     private void openFile(File url) {
 
@@ -255,6 +283,62 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             startActivity(intent);
         } catch (ActivityNotFoundException e) {
             Toast.makeText(getApplicationContext(), "No application found which can open the file", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @Override
+    public void onFocusChange(View view, boolean b) {
+        if(view==Cata)
+        {
+            Intent in=new Intent(MainActivity.this, GridActivity.class);
+
+            startActivity(in);
+            count=0;
+        }
+        else if(Rate==view)
+        {
+            closeKeyboard();
+            withChoiceItems(view,0);
+        }
+        else if(Payment==view)
+        {
+            closeKeyboard();
+            withChoiceItems(view,1);
+        }
+        else if(JobTerm==view)
+        {
+            closeKeyboard();
+            withChoiceItems(view,2);
+        }
+        else if(Date==view)
+        {
+            closeKeyboard();
+            final Calendar c = Calendar.getInstance();
+            mYear = c.get(Calendar.YEAR);
+            mMonth = c.get(Calendar.MONTH);
+            mDay = c.get(Calendar.DAY_OF_MONTH);
+            DatePickerDialog datePickerDialog = new DatePickerDialog(MainActivity.this,
+                    new DatePickerDialog.OnDateSetListener() {
+
+                        @Override
+                        public void onDateSet(DatePicker datePicker, int year, int monthOfYear, int dayOfMonth) {
+                            mFinalDay = dayOfMonth;
+                            mFinalMonth = monthOfYear;
+                            mFinalYear = year;
+                            Date.setText(mFinalDay + "-" + (mFinalMonth + 1) + "-" + mFinalYear);
+
+                        }
+                    }, mYear, mMonth, mDay);
+            datePickerDialog.setCancelable(false);
+            datePickerDialog.show();
+        }
+
+    }
+    private void closeKeyboard() {
+        View view = this.getCurrentFocus();
+        if (view != null) {
+            InputMethodManager imm = (InputMethodManager) getSystemService(getApplicationContext().INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
         }
     }
 }

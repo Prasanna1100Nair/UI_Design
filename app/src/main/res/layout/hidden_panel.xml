@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/bottom_sheet"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#fff"
+    android:orientation="vertical"
+
+    app:behavior_hideable="true"
+    app:behavior_peekHeight="400dp"
+    app:layout_behavior="android.support.design.widget.BottomSheetBehavior">
+
+
+
+    <TextView
+        android:id="@+id/camera"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:gravity="left|center_vertical"
+        android:layout_marginLeft="5dp"
+        android:drawableLeft="@mipmap/ic_launcher"
+
+        android:text="     Capture Image" />
+
+    <TextView
+        android:id="@+id/camera_video"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginLeft="5dp"
+        android:drawableLeft="@mipmap/ic_launcher"
+
+        android:gravity="left|center_vertical"
+        android:text="     Capture Video" />
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginLeft="5dp"
+        android:drawableLeft="@mipmap/ic_launcher"
+
+        android:gravity="left|center_vertical"
+        android:text="     Photo &amp; Video Library" />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginLeft="5dp"
+        android:drawableLeft="@mipmap/ic_launcher"
+
+        android:gravity="left|center_vertical"
+        android:text="     Document" />
+
+</LinearLayout>
