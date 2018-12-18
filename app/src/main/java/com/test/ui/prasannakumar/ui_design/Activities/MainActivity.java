@@ -55,6 +55,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     RecyclerView mRecyclerView;
     ImageView bottomSheet;
     int count=0;
+    public static final int REQUEST_CODE = 1;
     private CategoryInterface inter;
     ArrayList personNames = new ArrayList<>(Arrays.asList("Person 1", "Person 2", "Person 3", "Person 4", "Person 5", "Person 6", "Person 7","Person 8", "Person 9", "Person 10", "Person 11", "Person 12", "Person 13", "Person 14"));
     ArrayList personImages = new ArrayList<>(Arrays.asList(R.mipmap.ic_launcher,R.mipmap.ic_launcher,R.mipmap.ic_launcher,R.mipmap.ic_launcher,R.mipmap.ic_launcher,R.mipmap.ic_launcher,R.mipmap.ic_launcher,R.mipmap.ic_launcher,R.mipmap.ic_launcher,R.mipmap.ic_launcher,R.mipmap.ic_launcher,R.mipmap.ic_launcher,R.mipmap.ic_launcher,R.mipmap.ic_launcher));
@@ -88,9 +89,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mRecyclerView=findViewById(R.id.recyclerView);
         title.setHint("");
         Desp.setHint("");
-        sheetBehavior.setHideable(true);//Important to add
+        sheetBehavior.setHideable(true);
         sheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
+        title.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean hasFocus) {
+                if (hasFocus){
+                    title.setHint("");
+                    title_head.setHint("Post Title");
+                }else{
+                    title.setHint("Enter Post Title");
+                    title_head.setHint("");
+                }
 
+            }
+        });
         Desp.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean hasFocus) {
@@ -112,7 +125,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Location.setOnFocusChangeListener(this);
         bottomSheet.setOnClickListener(this);
 
-        Cata.setText(GlobalApplication.total+" Catagories selected");
+      //  Cata.setText(GlobalApplication.total+" Catagories selected");
         mRecyclerView.addItemDecoration(new DividerItemDecoration(MainActivity.this, LinearLayoutManager.HORIZONTAL));
 
         LinearLayoutManager horizontalLayoutManager = new LinearLayoutManager(MainActivity.this, LinearLayoutManager.HORIZONTAL, false);
@@ -227,12 +240,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
 
-//        if (requestCode == ImagePicker.IMAGE_PICKER_REQUEST_CODE && resultCode == RESULT_OK) {
-//            List<String> mPaths = data.getStringArrayListExtra(ImagePicker.EXTRA_IMAGE_PATH);
-//            //Your Code
-//        }
+        try {
+            super.onActivityResult(requestCode, resultCode, data);
+
+            if (requestCode == REQUEST_CODE  && resultCode  == RESULT_OK) {
+
+                int requiredValue = data.getIntExtra("key",0);
+                Cata.setText(requiredValue+" Catagories selected");
+            }
+        } catch (Exception ex) {
+            Toast.makeText(MainActivity.this, ex.toString(),
+                    Toast.LENGTH_SHORT).show();
+        }
+
     }
     private void openFile(File url) {
 
@@ -288,29 +309,30 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onFocusChange(View view, boolean b) {
-        if(view==Cata)
+        Log.e("TAG1","B:: "+b);
+        if(view==Cata && b)
         {
             Intent in=new Intent(MainActivity.this, GridActivity.class);
 
-            startActivity(in);
+            startActivityForResult(in , REQUEST_CODE);
             count=0;
         }
-        else if(Rate==view)
+        else if(Rate==view && b)
         {
             closeKeyboard();
             withChoiceItems(view,0);
         }
-        else if(Payment==view)
+        else if(Payment==view && b)
         {
             closeKeyboard();
             withChoiceItems(view,1);
         }
-        else if(JobTerm==view)
+        else if(JobTerm==view && b)
         {
             closeKeyboard();
             withChoiceItems(view,2);
         }
-        else if(Date==view)
+        else if(Date==view && b)
         {
             closeKeyboard();
             final Calendar c = Calendar.getInstance();

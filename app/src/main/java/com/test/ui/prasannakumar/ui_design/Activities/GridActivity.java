@@ -6,9 +6,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
+import android.widget.Button;
 
 import com.test.ui.prasannakumar.ui_design.Adapters.CustomAdapter;
 import com.test.ui.prasannakumar.ui_design.Classes.RecyclerViewItemDecorator;
+import com.test.ui.prasannakumar.ui_design.Global.GlobalApplication;
 import com.test.ui.prasannakumar.ui_design.Interface.CategoryInterface;
 import com.test.ui.prasannakumar.ui_design.R;
 
@@ -24,7 +27,7 @@ public class GridActivity  extends AppCompatActivity {
     ArrayList personNames = new ArrayList<>(Arrays.asList("Person 1", "Person 2", "Person 3", "Person 4", "Person 5", "Person 6", "Person 7","Person 8", "Person 9", "Person 10", "Person 11", "Person 12", "Person 13", "Person 14"));
     ArrayList personImages = new ArrayList<>(Arrays.asList(R.mipmap.ic_launcher,R.mipmap.ic_launcher,R.mipmap.ic_launcher,R.mipmap.ic_launcher,R.mipmap.ic_launcher,R.mipmap.ic_launcher,R.mipmap.ic_launcher,R.mipmap.ic_launcher,R.mipmap.ic_launcher,R.mipmap.ic_launcher,R.mipmap.ic_launcher,R.mipmap.ic_launcher,R.mipmap.ic_launcher,R.mipmap.ic_launcher));
    // ArrayList personImages = new ArrayList<>(Arrays.asList(R.drawable.test,R.drawable.test,R.drawable.test,R.drawable.test,R.drawable.test,R.drawable.test,R.drawable.test,R.drawable.test,R.drawable.test,R.drawable.test,R.drawable.test,R.drawable.test,R.drawable.test,R.drawable.test,R.drawable.test));
-
+Button submit;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,6 +39,7 @@ public class GridActivity  extends AppCompatActivity {
     }
 
     private void Init() {
+        submit=findViewById(R.id.btSubmit);
         mRecyclerView=findViewById(R.id.recyclerView);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getApplicationContext(),3);
         //gridLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL); // set Horizontal Orientation
@@ -46,5 +50,16 @@ public class GridActivity  extends AppCompatActivity {
         mRecyclerView.setLayoutManager(gridLayoutManager);
         CustomAdapter customAdapter = new CustomAdapter(GridActivity.this, personNames,personImages);
         mRecyclerView.setAdapter(customAdapter);
+        submit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = getIntent();
+                intent.putExtra("key", GlobalApplication.total);
+                setResult(RESULT_OK, intent);
+                finish();
+            }
+        });
     }
+
+
 }

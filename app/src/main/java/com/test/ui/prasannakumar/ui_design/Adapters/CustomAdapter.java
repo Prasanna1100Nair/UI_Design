@@ -73,6 +73,7 @@ holder.mFlip.setOnFlipListener(new EasyFlipView.OnFlipAnimationListener() {
             front++;
         }
         GlobalApplication.total=back-front;
+
         Log.e("TAG1","total:: "+ GlobalApplication.total);
        // categoryInterface.totalCount(1);
     }
